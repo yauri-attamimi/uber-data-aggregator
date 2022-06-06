@@ -9,4 +9,7 @@ Utility service that can be used to check / validate some Uber's driver data tha
 ## Run the Service
 
 1. Open your terminal
-2. Run the service by typing this command: `mvn spring-boot:run`
+2. Install all dependencies
+```mvn clean package```
+3. Run the service 
+```mvn spring-boot:run```
