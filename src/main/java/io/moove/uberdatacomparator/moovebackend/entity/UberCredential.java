@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class DriverUberCredential {
+public class UberCredential {
 
     @Id
     private Integer id;
