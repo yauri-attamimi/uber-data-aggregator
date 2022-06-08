@@ -1,5 +1,5 @@
 # uberdriver-crossdb-checker
-Utility service that can be used to check / validate some Uber's driver data that stored in different database in the old account and the new account.
+Utility service that can be used to check / validate some Uber's driver data related to Payment and Trip records. All of these records currently are splitted around our different data sources such as `moovebackend DB`, `datapipeline DB`, `Uber API v1`, and `Google Sheet Files (represent the Uber Dashboard)`.
 
 ## Prerequisites 
 
