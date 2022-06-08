@@ -1,6 +1,7 @@
-package io.moove.uberdatacomparator.uberapi.entity;
+package io.moove.uberdatacomparator.datapipeline.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,13 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "uber_driver_payment_histories")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class DriverPaymentHistory {
 
     @Id
@@ -28,10 +29,7 @@ public class DriverPaymentHistory {
     private String uberDriverUuid;
     @Column(name = "uber_partner_id")
     private String uberPartnerId;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
+    private String name;
     private String email;
     @Column(name = "phone_no")
     private String phoneNo;
