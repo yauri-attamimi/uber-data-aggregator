@@ -25,9 +25,9 @@ public class UberDriverController {
         return UberDataComparatorApplication.drnWithCredentials;
     }
 
-    @GetMapping("/payments/{drn}")
+    @GetMapping("/payments")
     public ResponseEntity<List<DriverPaymentHistory>> fetchUberPayments(
-            @PathVariable String drn,
+//            @PathVariable String drn,
             @RequestHeader("Authorization") String accessToken,
             @RequestParam(required = false) Optional<String> start,
             @RequestParam(required = false) Optional<String> max) throws NumberFormatException {
@@ -39,6 +39,6 @@ public class UberDriverController {
         if (max.isPresent()) {
             limit = Integer.parseInt(max.get());
         }
-        return ResponseEntity.ok(uberClientService.collectDriverPaymentRecords(drn, accessToken, offset, limit));
+        return ResponseEntity.ok(uberClientService.collectDriverPaymentRecords(accessToken, offset, limit));
     }
 }

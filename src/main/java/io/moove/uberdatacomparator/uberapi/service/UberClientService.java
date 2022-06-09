@@ -33,9 +33,8 @@ public class UberClientService {
         this.uberDriverService = uberDriverService;
     }
 
-    public List<DriverPaymentHistory> collectDriverPaymentRecords(String drn, String token, int offset, int limit) {
-        var driversFound = mooveDriverRepository.findByDrnOrderByUpdatedDateDesc(drn);
-        var selectedDriver = driversFound.size() > 0 ? driversFound.get(0) : null;
+    public List<DriverPaymentHistory> collectDriverPaymentRecords(String token, int offset, int limit) {
+        var selectedDriver = mooveDriverRepository.searchByAccessToken(token);
 
         limit = (limit == 0 ? 50 : limit);
         var response = this.webClient.get()
@@ -51,37 +50,35 @@ public class UberClientService {
             var operationResult = new ArrayList<DriverPaymentHistory>();
             if (r.getPayments() != null && r.getPayments().size() > 0) {
                 for (PaymentRecord rec : r.getPayments()) {
-                    if (selectedDriver != null) {
-                        operationResult.add(
+                    selectedDriver.ifPresent(mooveDriver -> operationResult.add(
                             DriverPaymentHistory.builder()
-                                .id(rec.getPaymentId())
-                                .drn(selectedDriver.getDrn())
-                                .uberDriverId(rec.getDriverId())
-                                .uberDriverUuid(selectedDriver.getUberId())
-                                .uberPartnerId(rec.getPartnerId())
-                                .name(selectedDriver.getName())
-                                .email(selectedDriver.getEmail())
-                                .phoneNo(selectedDriver.getPhone())
-                                .eventTime(rec.getEventTime())
-                                .eventTimeTs(LocalDateTime.ofInstant(Instant.ofEpochMilli(rec.getEventTime()), TimeZone.getDefault().toZoneId()))
-                                .category(rec.getCategory())
-                                .amount(BigDecimal.valueOf(rec.getAmount()))
-                                .cashCollected(BigDecimal.valueOf(rec.getCashCollected()))
-                                .serviceFee(BigDecimal.valueOf(rec.getBreakdown() != null ? rec.getBreakdown().getServiceFee() : 0))
-                                .otherFee(BigDecimal.valueOf(rec.getBreakdown() != null ? rec.getBreakdown().getOther() : 0))
-                                .splitFare(BigDecimal.valueOf(rec.getRiderFees() != null ? rec.getRiderFees().getSplitFare() : 0))
-                                .uberTripId(rec.getTripId())
-                                .currencyCode(rec.getCurrencyCode())
-                                .build()
-                        );
-                    }
+                                    .id(rec.getPaymentId())
+                                    .drn(mooveDriver.getDrn())
+                                    .uberDriverId(rec.getDriverId())
+                                    .uberDriverUuid(mooveDriver.getUberId())
+                                    .uberPartnerId(rec.getPartnerId())
+                                    .name(mooveDriver.getName())
+                                    .email(mooveDriver.getEmail())
+                                    .phoneNo(mooveDriver.getPhone())
+                                    .eventTime(rec.getEventTime())
+                                    .eventTimeTs(LocalDateTime.ofInstant(Instant.ofEpochMilli(rec.getEventTime()), TimeZone.getDefault().toZoneId()))
+                                    .category(rec.getCategory())
+                                    .amount(BigDecimal.valueOf(rec.getAmount()))
+                                    .cashCollected(BigDecimal.valueOf(rec.getCashCollected()))
+                                    .serviceFee(BigDecimal.valueOf(rec.getBreakdown() != null ? rec.getBreakdown().getServiceFee() : 0))
+                                    .otherFee(BigDecimal.valueOf(rec.getBreakdown() != null ? rec.getBreakdown().getOther() : 0))
+                                    .splitFare(BigDecimal.valueOf(rec.getRiderFees() != null ? rec.getRiderFees().getSplitFare() : 0))
+                                    .uberTripId(rec.getTripId())
+                                    .currencyCode(rec.getCurrencyCode())
+                                    .build()
+                    ));
                 }
             }
             return uberDriverService.batchUberPaymentInsert(operationResult);
         }).block();
     }
 
-    public Mono<UberTripResponse> fetchDriverTrips(String drn, String token, int offset, int limit) {
+    public Mono<UberTripResponse> fetchDriverTrips(String token, int offset, int limit) {
         limit = (limit == 0 ? 50 : limit);
         var response = this.webClient.get()
                 .uri("/partners/trips?offset=" + offset + "&limit=" + limit)
