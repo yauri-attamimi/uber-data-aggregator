@@ -1,16 +1,18 @@
 package io.moove.uberdatacomparator.uberapi.service;
 
 import io.moove.uberdatacomparator.datapipeline.entity.DriverPaymentHistory;
+import io.moove.uberdatacomparator.datapipeline.entity.DriverTripHistory;
 import io.moove.uberdatacomparator.moovebackend.repository.MooveDriverRepository;
 import io.moove.uberdatacomparator.service.IUberDriverService;
-import io.moove.uberdatacomparator.uberapi.dto.PaymentRecord;
-import io.moove.uberdatacomparator.uberapi.dto.UberPaymentResponse;
-import io.moove.uberdatacomparator.uberapi.dto.UberTripResponse;
+import io.moove.uberdatacomparator.uberapi.dto.payment.PaymentRecord;
+import io.moove.uberdatacomparator.uberapi.dto.payment.UberPaymentResponse;
+import io.moove.uberdatacomparator.uberapi.dto.trip.StatusChanges;
+import io.moove.uberdatacomparator.uberapi.dto.trip.TripRecord;
+import io.moove.uberdatacomparator.uberapi.dto.trip.UberTripResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -78,8 +80,11 @@ public class UberClientService {
         }).block();
     }
 
-    public Mono<UberTripResponse> fetchDriverTrips(String token, int offset, int limit) {
+    public List<DriverTripHistory> collectDriverTripRecords(String token, int offset, int limit) {
+        var selectedDriver = mooveDriverRepository.searchByAccessToken(token);
+
         limit = (limit == 0 ? 50 : limit);
+
         var response = this.webClient.get()
                 .uri("/partners/trips?offset=" + offset + "&limit=" + limit)
                 .headers(httpHeaders -> {
@@ -88,6 +93,43 @@ public class UberClientService {
                     httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
                 })
                 .retrieve().bodyToMono(UberTripResponse.class).log();
-        return response;
+
+        return response.map(r -> {
+            var operationResult = new ArrayList<DriverTripHistory>();
+            if (r.getTrips() != null && r.getTrips().size() > 0) {
+                for (TripRecord rec : r.getTrips()) {
+                    for (StatusChanges stat : rec.getStatusChanges()) {
+                        selectedDriver.ifPresent(mooveDriver -> operationResult.add(
+                                DriverTripHistory.builder()
+                                        .id(rec.getTripId())
+                                        .drn(mooveDriver.getDrn())
+                                        .vehicleId(rec.getVehicleId())
+                                        .uberDriverId(rec.getDriverId())
+                                        .uberDriverUuid(mooveDriver.getUberId())
+                                        .name(mooveDriver.getName())
+                                        .email(mooveDriver.getEmail())
+                                        .phoneNo(mooveDriver.getPhone())
+                                        .pickupUnixTs(rec.getPickup() != null ? rec.getPickup().getTimestamp() : 0)
+                                        .pickupTimestamp(rec.getPickup() != null ? LocalDateTime.ofInstant(
+                                                Instant.ofEpochMilli(
+                                                        rec.getPickup().getTimestamp()), TimeZone.getDefault().toZoneId()) : null)
+                                        .dropoffUnixTs(rec.getDropoff() != null ? rec.getDropoff().getTimestamp() : 0)
+                                        .dropoffTimestamp(rec.getDropoff() != null ? LocalDateTime.ofInstant(
+                                                Instant.ofEpochMilli(
+                                                        rec.getDropoff().getTimestamp()), TimeZone.getDefault().toZoneId()) : null)
+                                        .fare(BigDecimal.valueOf(rec.getFare()))
+                                        .currencyCode(rec.getCurrencyCode())
+                                        .distance(rec.getDistance())
+                                        .duration(rec.getDuration())
+                                        .surgeMultiplier(rec.getSurgeMultiplier())
+                                        .status(stat.getStatus())
+                                        .statusTimestamp(stat.getTimestamp())
+                                        .build()
+                        ));
+                    }
+                }
+            }
+            return uberDriverService.batchUberTripInsert(operationResult);
+        }).block();
     }
 }

@@ -2,6 +2,7 @@ package io.moove.uberdatacomparator.controller;
 
 import io.moove.uberdatacomparator.UberDataComparatorApplication;
 import io.moove.uberdatacomparator.datapipeline.entity.DriverPaymentHistory;
+import io.moove.uberdatacomparator.datapipeline.entity.DriverTripHistory;
 import io.moove.uberdatacomparator.service.IUberDriverService;
 import io.moove.uberdatacomparator.uberapi.service.UberClientService;
 import lombok.RequiredArgsConstructor;
@@ -27,18 +28,21 @@ public class UberDriverController {
 
     @GetMapping("/payments")
     public ResponseEntity<List<DriverPaymentHistory>> fetchUberPayments(
-//            @PathVariable String drn,
             @RequestHeader("Authorization") String accessToken,
             @RequestParam(required = false) Optional<String> start,
             @RequestParam(required = false) Optional<String> max) throws NumberFormatException {
-        int offset = 0;
-        int limit = 50;
-        if (start.isPresent()) {
-            offset = Integer.parseInt(start.get());
-        }
-        if (max.isPresent()) {
-            limit = Integer.parseInt(max.get());
-        }
+        int offset = start.map(Integer::parseInt).orElse(0);
+        int limit = max.map(Integer::parseInt).orElse(50);
         return ResponseEntity.ok(uberClientService.collectDriverPaymentRecords(accessToken, offset, limit));
+    }
+
+    @GetMapping("/trips")
+    public ResponseEntity<List<DriverTripHistory>> fetchUberTrips(
+            @RequestHeader("Authorization") String accessToken,
+            @RequestParam(required = false) Optional<String> start,
+            @RequestParam(required = false) Optional<String> max) throws NumberFormatException {
+        int offset = start.map(Integer::parseInt).orElse(0);
+        int limit = max.map(Integer::parseInt).orElse(50);
+        return ResponseEntity.ok(uberClientService.collectDriverTripRecords(accessToken, offset, limit));
     }
 }
