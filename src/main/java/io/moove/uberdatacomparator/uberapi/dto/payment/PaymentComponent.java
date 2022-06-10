@@ -1,4 +1,4 @@
-package io.moove.uberdatacomparator.uberapi.dto;
+package io.moove.uberdatacomparator.uberapi.dto.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
