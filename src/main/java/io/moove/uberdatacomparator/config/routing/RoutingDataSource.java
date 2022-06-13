@@ -1,10 +1,14 @@
-package io.moove.uberdatacomparator.config;
+package io.moove.uberdatacomparator.config.routing;
 
+import io.moove.uberdatacomparator.config.db.DataSourceType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import java.util.Stack;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Slf4j
 public class RoutingDataSource extends AbstractRoutingDataSource {
 

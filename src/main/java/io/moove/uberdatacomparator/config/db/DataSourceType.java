@@ -1,8 +1,11 @@
-package io.moove.uberdatacomparator.config;
+package io.moove.uberdatacomparator.config.db;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Getter
 @RequiredArgsConstructor
 public enum DataSourceType {

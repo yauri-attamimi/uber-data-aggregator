@@ -1,7 +1,8 @@
-package io.moove.uberdatacomparator.config;
+package io.moove.uberdatacomparator.config.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.moove.uberdatacomparator.config.routing.RoutingDataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,9 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Configuration
 @RequiredArgsConstructor
 public class DataSourceConfig {

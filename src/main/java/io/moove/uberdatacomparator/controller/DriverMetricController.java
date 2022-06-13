@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @RestController
 @RequestMapping("/metrics")
 @RequiredArgsConstructor

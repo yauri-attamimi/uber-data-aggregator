@@ -8,6 +8,9 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor

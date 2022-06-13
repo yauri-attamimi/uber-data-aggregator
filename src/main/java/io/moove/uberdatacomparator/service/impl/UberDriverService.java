@@ -1,6 +1,6 @@
 package io.moove.uberdatacomparator.service.impl;
 
-import io.moove.uberdatacomparator.config.DataSourceType;
+import io.moove.uberdatacomparator.config.db.DataSourceType;
 import io.moove.uberdatacomparator.config.routing.WithDatabase;
 import io.moove.uberdatacomparator.datapipeline.entity.DriverPaymentHistory;
 import io.moove.uberdatacomparator.datapipeline.entity.DriverTripHistory;
@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
