@@ -1,6 +1,6 @@
 package io.moove.uberdatacomparator.config.routing;
 
-import io.moove.uberdatacomparator.config.DataSourceType;
+import io.moove.uberdatacomparator.config.db.DataSourceType;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.annotation.ElementType;

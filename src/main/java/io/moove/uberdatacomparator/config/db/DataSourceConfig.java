@@ -1,7 +1,8 @@
-package io.moove.uberdatacomparator.config;
+package io.moove.uberdatacomparator.config.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.moove.uberdatacomparator.config.routing.RoutingDataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

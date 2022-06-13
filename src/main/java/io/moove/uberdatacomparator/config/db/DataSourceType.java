@@ -1,4 +1,4 @@
-package io.moove.uberdatacomparator.config;
+package io.moove.uberdatacomparator.config.db;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
