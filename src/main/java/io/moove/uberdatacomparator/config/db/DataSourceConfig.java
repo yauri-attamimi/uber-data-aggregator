@@ -12,6 +12,9 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Configuration
 @RequiredArgsConstructor
 public class DataSourceConfig {

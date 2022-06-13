@@ -13,6 +13,9 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Entity
 @Table(name = "driver_uberalldriver")
 @NoArgsConstructor

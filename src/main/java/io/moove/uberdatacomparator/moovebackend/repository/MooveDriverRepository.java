@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 public interface MooveDriverRepository extends JpaRepository<MooveDriver, Integer> {
 
     List<MooveDriver> findByDrnOrderByUpdatedDateDesc(String drn);

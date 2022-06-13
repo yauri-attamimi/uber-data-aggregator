@@ -6,6 +6,9 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import java.util.Stack;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Slf4j
 public class RoutingDataSource extends AbstractRoutingDataSource {
 

@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 public interface UberCredentialRepository extends JpaRepository<UberCredential, Integer> {
 
     @Query("SELECT d.drn FROM UberCredential d")

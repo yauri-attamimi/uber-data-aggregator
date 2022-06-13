@@ -6,6 +6,9 @@ import io.moove.uberdatacomparator.datapipeline.entity.DriverTripHistory;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 public interface IUberDriverService {
 
     List<String> fetchAllDrns();

@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Service
 @Slf4j
 public class UberClientService {

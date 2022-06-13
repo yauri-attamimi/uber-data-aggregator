@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 public interface DriverDailyMetricRepository extends JpaRepository<DriverDailyMetric, DriverDailyMetricID> {
 
     @Query("SELECT dm.id.drn FROM DriverDailyMetric dm WHERE dm.id.drn IN (:drns)")

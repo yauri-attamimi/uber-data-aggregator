@@ -8,6 +8,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Entity
 @Table(name = "driver_daily_metrics", uniqueConstraints = { @UniqueConstraint(columnNames = {"date", "drn"})})
 @NoArgsConstructor

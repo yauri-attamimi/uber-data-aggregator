@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Entity
 @Table(name = "uber_driver_payment_histories")
 @NoArgsConstructor

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

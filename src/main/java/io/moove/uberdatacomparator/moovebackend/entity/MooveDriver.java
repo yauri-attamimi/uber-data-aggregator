@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import java.math.BigInteger;
 import java.time.LocalDate;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @Entity
 @Table(name = "driver_driver")
 @NoArgsConstructor

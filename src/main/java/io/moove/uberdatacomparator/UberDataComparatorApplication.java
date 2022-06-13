@@ -10,6 +10,9 @@ import org.springframework.context.event.EventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author yauritux (yauri.attamimi@moove.io)
+ */
 @SpringBootApplication
 public class UberDataComparatorApplication {
 
